@@ -1,0 +1,16 @@
+{
+  "name": "geniskapi-browser-windows",
+  "version": "0.2.0",
+  "description": "GenişKapı Browser — modern Chromium-based browser for Windows",
+  "main": "src/main.js",
+  "author": "OxygenForge-code",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^43.4.1",
+    "electron-builder": "^26.0.12"
+  }
+}
