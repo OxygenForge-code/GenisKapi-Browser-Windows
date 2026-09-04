@@ -1,8 +1,8 @@
 {
   "name": "geniskapi-browser-windows",
-  "version": "0.4.0",
-  "description": "GenişKapı Browser — modern Chromium-based Windows browser with modular feature foundations",
-  "main": "src/main.js",
+  "version": "0.5.0",
+  "description": "GenişKapı Browser — modern Chromium-based Windows browser with real history, bookmarks, downloads and extension manager pages",
+  "main": "src/bootstrap.js",
   "author": "OxygenForge-code",
   "license": "MIT",
   "scripts": {
