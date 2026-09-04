@@ -1,0 +1,58 @@
+/* GenişKapı motion system — UI only */
+:root{--motion-fast:.16s;--motion-med:.28s;--motion-slow:.7s;--motion-ease:cubic-bezier(.2,.75,.2,1);--motion-out:cubic-bezier(.16,1,.3,1)}
+@keyframes gk-fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes gk-scale-in{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes gk-pop{0%{opacity:0;transform:scale(.82) translateY(8px)}65%{opacity:1;transform:scale(1.035) translateY(-1px)}100%{transform:none}}
+@keyframes gk-slide-glow{0%{transform:translateX(-140%);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(440%);opacity:0}}
+@keyframes gk-spin{to{transform:rotate(360deg)}}
+@keyframes gk-pulse{0%,100%{box-shadow:0 0 0 0 rgba(130,170,255,.18)}50%{box-shadow:0 0 0 8px rgba(130,170,255,0)}}
+@keyframes gk-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes gk-drift-a{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(70px,35px,0)}}
+@keyframes gk-drift-b{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-55px,-30px,0)}}
+@keyframes gk-ripple{to{transform:translate(-50%,-50%) scale(17);opacity:0}}
+@keyframes gk-shimmer{0%{background-position:200% 0}100%{background-position:-100% 0}}
+
+/* toolbar micro-interactions */
+.tool,.mini,.menu-trigger,.new-tab,.window-btn,.tab-close,.profile{will-change:transform}
+.tool:hover svg{filter:drop-shadow(0 0 5px rgba(130,170,255,.17))}
+.tool.loading svg{animation:gk-spin .68s linear infinite}
+.new-tab:hover{transform:rotate(90deg) scale(1.05)}
+.menu-trigger:hover{transform:rotate(15deg) scale(1.03)}
+.profile:hover{animation:gk-pulse 1s ease-out}
+
+/* animated active tab */
+.tab.active:after{animation:gk-shimmer 2.8s linear infinite;background:linear-gradient(90deg,transparent,#83adff,#d7e6ff,#83adff,transparent);background-size:220% 100%}
+.tab.active .favicon{animation:gk-float 4s ease-in-out infinite}
+
+/* omnibox */
+.omnibox-shell{will-change:transform,box-shadow}
+.omnibox-shell.focused .secure-icon{animation:gk-pop .36s var(--motion-out) both}
+.omnibox-shell.focused:after{content:"";position:absolute;inset:-1px;border-radius:15px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(135,183,255,.12),transparent);background-size:220% 100%;animation:gk-shimmer 1.8s linear infinite}
+
+/* new-tab entrance */
+.hero-mark{animation:gk-pop .82s var(--motion-out) both,.gk-float 5s .9s ease-in-out infinite}
+.hero h1{animation:gk-fade-up .62s .12s var(--motion-out) both}
+.tagline{animation:gk-fade-up .56s .19s var(--motion-out) both}
+.hero-search{animation:gk-fade-up .66s .24s var(--motion-out) both}
+.section{animation:gk-fade-up .62s .32s var(--motion-out) both}
+.shortcut{animation:gk-scale-in .48s var(--motion-out) both}
+.shortcut:nth-child(1){animation-delay:.38s}.shortcut:nth-child(2){animation-delay:.43s}.shortcut:nth-child(3){animation-delay:.48s}.shortcut:nth-child(4){animation-delay:.53s}.shortcut:nth-child(5){animation-delay:.58s}.shortcut:nth-child(6){animation-delay:.63s}
+.info-card{animation:gk-fade-up .55s .69s var(--motion-out) both}.info-card:nth-child(2){animation-delay:.75s}
+
+/* cards respond with depth */
+.shortcut,.info-card{will-change:transform,box-shadow}
+.shortcut:hover .shortcut-icon{box-shadow:0 9px 22px rgba(78,124,193,.2)}
+
+/* menus and suggestions */
+.menu-panel.open{animation:gk-pop .23s var(--motion-out) both;transform-origin:top right}
+.suggestions.open{animation:gk-pop .2s var(--motion-out) both;transform-origin:top center}
+.menu-item:hover .menu-icon{transform:translateX(1px) scale(1.08);transition:transform .16s var(--motion-ease)}
+
+/* status + loading */
+.status.show{animation:gk-fade-up .3s var(--motion-out) both}
+.load-bar:after{animation:gk-slide-glow 1.12s linear infinite}
+
+/* button ripple */
+.ripple{position:fixed;left:0;top:0;width:9px;height:9px;border-radius:50%;background:rgba(154,197,255,.3);pointer-events:none;transform:translate(-50%,-50%) scale(0);animation:gk-ripple .58s var(--motion-out) forwards;z-index:9999}
+
+@media(prefers-reduced-motion:reduce){.tool.loading svg,.tab.active:after,.hero-mark,.shortcut,.info-card,.hero h1,.tagline,.hero-search,.section,.status.show,.load-bar:after,.suggestions.open,.menu-panel.open{animation:none!important}.omnibox-shell.focused:after{display:none!important}}
