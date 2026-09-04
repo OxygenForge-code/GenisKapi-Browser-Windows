@@ -13,7 +13,7 @@ let view;
 let extensionStoreFile;
 const extensions = new Map();
 
-function shouldBlock(url) { try { const host=new URL(url).hostname.replace(/^www\./,'').toLowerCase(); return blocked.has(host)||[...blocked].some(d=>host.endsWith('.'+d)); } catch { return false; } }
+function shouldBlock(url) { try { const host=new URL(url).hostname.replace(/^www\\./,'').toLowerCase(); return blocked.has(host)||[...blocked].some(d=>host.endsWith('.'+d)); } catch { return false; } }
 function isCwsUrl(url) { try { return CWS_HOSTS.has(new URL(url).hostname.toLowerCase()); } catch { return false; } }
 function readInstalledExtensions() { try { if(!fs.existsSync(extensionStoreFile)) return []; const data=JSON.parse(fs.readFileSync(extensionStoreFile,'utf8')); return Array.isArray(data)?data:[]; } catch { return []; } }
 function writeInstalledExtensions() { fs.mkdirSync(path.dirname(extensionStoreFile),{recursive:true}); fs.writeFileSync(extensionStoreFile,JSON.stringify([...extensions.values()],null,2),'utf8'); }
@@ -77,7 +77,7 @@ function createWindow(){
   win=new BrowserWindow({width:1440,height:900,minWidth:900,minHeight:600,backgroundColor:'#08111f',title:'GenişKapı Browser',webPreferences:{preload:path.join(__dirname,'preload.js'),contextIsolation:true,sandbox:true,nodeIntegration:false}});
   view=new BrowserView({webPreferences:{contextIsolation:true,sandbox:true,nodeIntegration:false}}); view.webContents.setUserAgent(CHROME_UA); win.setBrowserView(view);
   const resize=()=>{const b=win.getBounds();view.setBounds({x:0,y:112,width:b.width,height:Math.max(0,b.height-112)})}; resize(); view.setAutoResize({width:true,height:true});
-  view.webContents.on('will-navigate',async(event,url)=>{if(!url.startsWith('geniskapi://install/'))return;event.preventDefault();try{const u=new URL(url);const id=u.pathname.replace(/^\//,'').split('/').pop();const source=u.searchParams.get('source')||'';const result=await installChromeWebStoreExtension(id,source);win.webContents.send('extension-install-result',result)}catch(error){showExtensionIncompatibility('Bu eklenti',error.message);win.webContents.send('extension-install-error',{error:error.message,incompatible:true});uiProgress({stage:'error',progress:0,text:`Kurulum başarısız: ${error.message}`})}});
+  view.webContents.on('will-navigate',async(event,url)=>{if(!url.startsWith('geniskapi://install/'))return;event.preventDefault();try{const u=new URL(url);const id=u.pathname.replace(/^\\//,'').split('/').pop();const source=u.searchParams.get('source')||'';const result=await installChromeWebStoreExtension(id,source);win.webContents.send('extension-install-result',result)}catch(error){showExtensionIncompatibility('Bu eklenti',error.message);win.webContents.send('extension-install-error',{error:error.message,incompatible:true});uiProgress({stage:'error',progress:0,text:`Kurulum başarısız: ${error.message}`})}});
   view.webContents.loadURL('https://www.google.com/'); win.loadFile(path.join(__dirname,'ui.html')); win.webContents.on('did-finish-load',()=>{try{const css=fs.readFileSync(path.join(__dirname,'animations.css'),'utf8'); win.webContents.insertCSS(css).catch(()=>{}); const modern=fs.readFileSync(path.join(__dirname,'modern-ui.css'),'utf8'); win.webContents.insertCSS(modern).catch(()=>{});}catch{}}); win.on('resize',resize);
   view.webContents.on('did-start-loading',()=>win.webContents.send('page-loading',true)); view.webContents.on('did-stop-loading',()=>win.webContents.send('page-loading',false));
   view.webContents.on('did-navigate',(_,url)=>{win.webContents.send('page-url',url);injectCwsBridge(view.webContents)}); view.webContents.on('did-navigate-in-page',(_,url)=>{win.webContents.send('page-url',url);if(isCwsUrl(url))injectCwsBridge(view.webContents)}); injectCwsBridge(view.webContents);
@@ -85,4 +85,19 @@ function createWindow(){
 
 app.whenReady().then(async()=>{extensionStoreFile=path.join(app.getPath('userData'),'installed-extensions.json');configureSession();await restoreExtensions();createWindow();Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'GenişKapı',submenu:[{role:'about'},{role:'quit'}]},{label:'Görünüm',submenu:[{role:'toggledevtools'},{role:'reload'},{role:'togglefullscreen'}]}]))});
 
-ipcMain.handle('navigate',(_,value)=>{let u=String(value||'').trim();if(!/^https?:\/\//i.test(u))u='https://www.google.com/search?q='+encodeURIComponent(u);return view.webContents.loadURL(u)}); ipcMain.handle('back',()=>view.webContents.goBack()); ipcMain.handle('forward',()=>view.webContents.goForward()); ipcMain.handle('reload',()=>view.webContents.reload()); ipcMain.handle('home',()=>view.webContents.loadURL('https://www.google.com/')); ipcMain.handle('new-window',()=>{const w=new BrowserWindow({width:1200,height:800,webPreferences:{contextIsolation:true,sandbox:true,nodeIntegration:false}});w.webContents.setUserAgent(CHROME_UA);w.loadURL('https://www.google.com/')}); ipcMain.handle('cws-install',async(_,id,url)=>installChromeWebStoreExtension(id,url)); ipcMain.handle('extensions-list',()=>[...extensions.values()]); ipcMain.handle('extensions-remove',async(_,id)=>{if(!extensions.has(id))return false;try{await session.defaultSession.removeExtension(id)}catch{}extensions.delete(id);writeInstalledExtensions();return true}); app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit()});
+ipcMain.handle('navigate',(_,value)=>{let u=String(value||'').trim();if(!/^https?:\\/\\//i.test(u))u='https://www.google.com/search?q='+encodeURIComponent(u);return view.webContents.loadURL(u)});
+ipcMain.handle('back',()=>view.webContents.goBack());
+ipcMain.handle('forward',()=>view.webContents.goForward());
+ipcMain.handle('reload',()=>view.webContents.reload());
+ipcMain.handle('home',()=>view.webContents.loadURL('https://www.google.com/'));
+ipcMain.handle('new-window',()=>{const w=new BrowserWindow({width:1200,height:800,webPreferences:{contextIsolation:true,sandbox:true,nodeIntegration:false}});w.webContents.setUserAgent(CHROME_UA);w.loadURL('https://www.google.com/')});
+ipcMain.handle('cws-install',async(_,id,url)=>installChromeWebStoreExtension(id,url));
+ipcMain.handle('extensions-list',()=>[...extensions.values()]);
+ipcMain.handle('extensions-remove',async(_,id)=>{if(!extensions.has(id))return false;try{await session.defaultSession.removeExtension(id)}catch{}extensions.delete(id);writeInstalledExtensions();return true});
+ipcMain.handle('open-devtools',()=>{view?.webContents.openDevTools({mode:'detach'});return true});
+ipcMain.handle('window-minimize',()=>{win?.minimize();return true});
+ipcMain.handle('window-maximize',()=>{if(!win)return false;win.isMaximized()?win.unmaximize():win.maximize();return true});
+ipcMain.handle('window-close',()=>{win?.close();return true});
+ipcMain.handle('show-menu',()=>{Menu.getApplicationMenu()?.popup({window:win});return true});
+
+app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit()});
