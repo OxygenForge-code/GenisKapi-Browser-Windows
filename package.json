@@ -1,7 +1,7 @@
 {
   "name": "geniskapi-browser-windows",
-  "version": "0.2.0",
-  "description": "GenişKapı Browser — modern Chromium-based browser for Windows",
+  "version": "0.3.0",
+  "description": "GenişKapı Browser — modern Chromium-based browser for Windows with Chrome Web Store extension installation",
   "main": "src/main.js",
   "author": "OxygenForge-code",
   "license": "MIT",
@@ -12,5 +12,8 @@
   "devDependencies": {
     "electron": "^43.4.1",
     "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16"
   }
 }
