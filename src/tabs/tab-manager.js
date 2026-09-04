@@ -1,0 +1,1 @@
+module.exports=class TabManager{constructor(store){this.store=store}open(url,title){return this.store.create(url,title)}switch(id){return this.store.activate(id)}close(id){return this.store.close(id)}rename(id,title){return this.store.update(id,{title})}};

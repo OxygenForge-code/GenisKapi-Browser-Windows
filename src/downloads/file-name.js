@@ -1,0 +1,1 @@
+module.exports={sanitize(name){return String(name||'download').replace(/[<>:"/\\|?*\x00-\x1F]/g,'_').slice(0,180)||'download'}};

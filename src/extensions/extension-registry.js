@@ -1,0 +1,1 @@
+module.exports=class ExtensionRegistry{constructor(){this.items=new Map()}add(item){this.items.set(item.id,item);return item}remove(id){return this.items.delete(id)}get(id){return this.items.get(id)||null}list(){return [...this.items.values()]}};

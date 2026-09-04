@@ -1,0 +1,1 @@
+module.exports=Object.freeze({default:'google',providers:{google:q=>'https://www.google.com/search?q='+encodeURIComponent(q),bing:q=>'https://www.bing.com/search?q='+encodeURIComponent(q),duckduckgo:q=>'https://duckduckgo.com/?q='+encodeURIComponent(q)}});

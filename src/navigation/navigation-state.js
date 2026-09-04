@@ -1,0 +1,1 @@
+module.exports=class NavigationState{constructor(){this.url='about:blank';this.canBack=false;this.canForward=false;this.loading=false}update(patch){Object.assign(this,patch);return this}};

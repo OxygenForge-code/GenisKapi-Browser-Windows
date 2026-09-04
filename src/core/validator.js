@@ -1,0 +1,1 @@
+module.exports={validate(entry){if(!entry||typeof entry.url!=='string'||!entry.url.trim())throw new Error('Geçersiz kayıt');return true},trim(value,max=500){return String(value??'').slice(0,max)}};

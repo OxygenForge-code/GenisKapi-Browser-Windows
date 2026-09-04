@@ -1,0 +1,1 @@
+class NotificationCenter{constructor(){this.items=[]}push(message,type='info',timeout=4000){const item={id:Date.now()+Math.random(),message,type,created:Date.now(),timeout};this.items.push(item);return item}dismiss(id){this.items=this.items.filter(x=>x.id!==id)}list(){return this.items.slice()}}module.exports=NotificationCenter;

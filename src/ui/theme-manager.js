@@ -1,0 +1,1 @@
+module.exports=class ThemeManager{constructor(settings){this.settings=settings}current(){return this.settings.get('theme','dark')}set(theme){if(!['dark','light','system'].includes(theme))throw new Error('Geçersiz tema');return this.settings.set('theme',theme)}};

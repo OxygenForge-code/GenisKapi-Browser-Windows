@@ -1,0 +1,1 @@
+module.exports=class SearchController{constructor(engine){this.engine=engine}query(text){return this.engine.providers[this.engine.default](String(text||''))}};

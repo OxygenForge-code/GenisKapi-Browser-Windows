@@ -1,0 +1,1 @@
+class SessionStore{constructor(storage){this.storage=storage;this.data=storage.data||{}}set(key,value){this.data[key]=value;this.storage.data=this.data;this.storage.save()}get(key,fallback=null){return this.data[key]??fallback}all(){return {...this.data}}}module.exports=SessionStore;

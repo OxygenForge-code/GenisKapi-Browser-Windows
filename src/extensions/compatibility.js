@@ -1,0 +1,1 @@
+module.exports={classify(manifest){if(!manifest||![2,3].includes(Number(manifest.manifest_version)))return{compatible:false,reason:'Manifest sürümü desteklenmiyor'};return{compatible:true,reason:null}}};

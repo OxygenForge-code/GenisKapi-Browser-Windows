@@ -1,0 +1,1 @@
+module.exports={isSafe(url){try{const u=new URL(url);return ['http:','https:'].includes(u.protocol)}catch{return false}}};

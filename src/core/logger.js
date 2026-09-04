@@ -1,0 +1,1 @@
+module.exports=class Logger{constructor(prefix='GenişKapı'){this.prefix=prefix}info(...args){console.info(`[${this.prefix}]`,...args)}warn(...args){console.warn(`[${this.prefix}]`,...args)}error(...args){console.error(`[${this.prefix}]`,...args)}};

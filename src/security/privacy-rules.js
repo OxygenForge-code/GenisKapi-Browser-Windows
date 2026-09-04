@@ -1,0 +1,1 @@
+module.exports=class PrivacyRules{constructor(){this.domains=new Set(['doubleclick.net','googlesyndication.com','adnxs.com','scorecardresearch.com'])}isBlocked(host){host=String(host||'').toLowerCase().replace(/^www\./,'');return this.domains.has(host)||[...this.domains].some(d=>host.endsWith('.'+d))}add(domain){this.domains.add(domain.toLowerCase())}};

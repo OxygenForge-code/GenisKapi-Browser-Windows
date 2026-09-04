@@ -1,0 +1,1 @@
+module.exports=class CommandPalette{constructor(){this.items=[]}register(name,run){this.items.push({name,run});return this}search(q){q=String(q||'').toLowerCase();return this.items.filter(x=>x.name.toLowerCase().includes(q))}};

@@ -1,0 +1,1 @@
+module.exports={commands:[['new-tab','Ctrl+T'],['close-tab','Ctrl+W'],['reopen-tab','Ctrl+Shift+T'],['focus-address','Ctrl+L'],['reload','Ctrl+R'],['bookmark','Ctrl+D'],['find','Ctrl+F']],find(key){return this.commands.find(x=>x[0]===key)}};

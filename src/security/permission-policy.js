@@ -1,0 +1,1 @@
+module.exports=class PermissionPolicy{constructor(){this.allowed=new Set(['clipboard-read','clipboard-write','notifications'])}can(permission){return this.allowed.has(permission)}add(permission){this.allowed.add(permission)}};

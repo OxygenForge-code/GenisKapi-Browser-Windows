@@ -1,0 +1,1 @@
+module.exports={build({url,title}){return{url,title:title||url,active:true,loading:false,muted:false}}};

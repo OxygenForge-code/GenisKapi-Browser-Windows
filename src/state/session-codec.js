@@ -1,0 +1,1 @@
+module.exports={serialize(session){return JSON.stringify(session||{});},parse(value){try{return JSON.parse(value)}catch{return{}}}};

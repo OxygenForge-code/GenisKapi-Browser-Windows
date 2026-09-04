@@ -1,0 +1,1 @@
+module.exports={score({blocked=0,requests=0,https=true}={}){let score=100;if(requests)score-=Math.min(35,blocked/requests*35);if(!https)score-=25;return Math.max(0,Math.round(score))}};

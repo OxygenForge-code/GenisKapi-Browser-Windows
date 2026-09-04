@@ -1,0 +1,1 @@
+module.exports={make(title,url,extra={}){return{title:title||'Yeni sekme',url:url||'about:blank',created:Date.now(),...extra}}};

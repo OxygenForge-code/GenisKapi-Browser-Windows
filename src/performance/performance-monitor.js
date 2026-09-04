@@ -1,0 +1,1 @@
+module.exports={memory:{tabs:0,history:0,bookmarks:0},snapshot(){return {...this.memory}},mark(name){if(name in this.memory)this.memory[name]++},reset(){Object.keys(this.memory).forEach(k=>this.memory[k]=0)}};

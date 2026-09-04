@@ -1,0 +1,1 @@
+module.exports={isUrl:v=>/^https?:\/\//i.test(String(v||'')),normalize:v=>{const s=String(v||'').trim();return /^https?:\/\//i.test(s)?s:'https://www.google.com/search?q='+encodeURIComponent(s)}};

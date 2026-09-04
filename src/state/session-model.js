@@ -1,0 +1,1 @@
+module.exports={version:1,create(){return{version:1,created:Date.now(),tabs:[],activeTab:null}}};
