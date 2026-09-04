@@ -12,12 +12,20 @@ contextBridge.exposeInMainWorld('geniskapi', {
   closeTab: id => ipcRenderer.invoke('tab-close', id),
   duplicateTab: id => ipcRenderer.invoke('tab-duplicate', id),
   getTabs: () => ipcRenderer.invoke('tab-list'),
+  minimize: () => ipcRenderer.invoke('window-minimize'),
+  maximize: () => ipcRenderer.invoke('window-maximize'),
+  closeWindow: () => ipcRenderer.invoke('window-close'),
   onTabs: cb => ipcRenderer.on('tabs-updated', (_, tabs) => cb(tabs)),
   onUrl: cb => ipcRenderer.on('page-url', (_, data) => cb(data)),
   onTitle: cb => ipcRenderer.on('page-title', (_, data) => cb(data)),
   onLoading: cb => ipcRenderer.on('page-loading', (_, data) => cb(data)),
   onActiveTab: cb => ipcRenderer.on('active-tab', (_, id) => cb(id)),
+  onWindowState: cb => ipcRenderer.on('window-state', (_, state) => cb(state)),
+  onTabCrashed: cb => ipcRenderer.on('tab-crashed', (_, data) => cb(data)),
+  onTabError: cb => ipcRenderer.on('tab-error', (_, data) => cb(data)),
   onDownloadStarted: cb => ipcRenderer.on('download-started', (_, data) => cb(data)),
   onDownloadProgress: cb => ipcRenderer.on('download-progress', (_, data) => cb(data)),
-  onDownloadFinished: cb => ipcRenderer.on('download-finished', (_, data) => cb(data))
+  onDownloadFinished: cb => ipcRenderer.on('download-finished', (_, data) => cb(data)),
+  onExtensionInstalled: cb => ipcRenderer.on('extension-installed', (_, data) => cb(data)),
+  onExtensionError: cb => ipcRenderer.on('extension-install-error', (_, data) => cb(data))
 });
