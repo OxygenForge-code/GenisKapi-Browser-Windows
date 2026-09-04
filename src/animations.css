@@ -1,58 +1,135 @@
-/* GenişKapı motion system — UI only */
-:root{--motion-fast:.16s;--motion-med:.28s;--motion-slow:.7s;--motion-ease:cubic-bezier(.2,.75,.2,1);--motion-out:cubic-bezier(.16,1,.3,1)}
-@keyframes gk-fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes gk-scale-in{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-@keyframes gk-pop{0%{opacity:0;transform:scale(.82) translateY(8px)}65%{opacity:1;transform:scale(1.035) translateY(-1px)}100%{transform:none}}
-@keyframes gk-slide-glow{0%{transform:translateX(-140%);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(440%);opacity:0}}
+/* GenişKapı Motion System v2 — UI only */
+:root{--gk-fast:.12s;--gk-snappy:.18s;--gk-med:.28s;--gk-long:.55s;--gk-ease:cubic-bezier(.2,.75,.2,1);--gk-out:cubic-bezier(.16,1,.3,1);--gk-spring:cubic-bezier(.175,.885,.32,1.275)}
+@keyframes gk-fade-up{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
+@keyframes gk-fade-down{from{opacity:0;transform:translate3d(0,-12px,0)}to{opacity:1;transform:none}}
+@keyframes gk-fade-left{from{opacity:0;transform:translate3d(14px,0,0)}to{opacity:1;transform:none}}
+@keyframes gk-scale-in{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes gk-pop{0%{opacity:0;transform:translate3d(0,9px,0) scale(.88)}60%{opacity:1;transform:translate3d(0,-1px,0) scale(1.025)}100%{transform:none}}
+@keyframes gk-soft-pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @keyframes gk-spin{to{transform:rotate(360deg)}}
-@keyframes gk-pulse{0%,100%{box-shadow:0 0 0 0 rgba(130,170,255,.18)}50%{box-shadow:0 0 0 8px rgba(130,170,255,0)}}
-@keyframes gk-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes gk-drift-a{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(70px,35px,0)}}
-@keyframes gk-drift-b{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-55px,-30px,0)}}
-@keyframes gk-ripple{to{transform:translate(-50%,-50%) scale(17);opacity:0}}
-@keyframes gk-shimmer{0%{background-position:200% 0}100%{background-position:-100% 0}}
+@keyframes gk-pulse{0%,100%{box-shadow:0 0 0 0 rgba(130,170,255,0)}50%{box-shadow:0 0 0 8px rgba(130,170,255,0)}}
+@keyframes gk-float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-3px,0)}}
+@keyframes gk-float-wide{0%,100%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(0,-4px,0) rotate(-.5deg)}}
+@keyframes gk-breathe{0%,100%{opacity:.78;transform:scale(1)}50%{opacity:1;transform:scale(1.015)}}
+@keyframes gk-shimmer{0%{background-position:210% 0}100%{background-position:-110% 0}}
+@keyframes gk-slide-glow{0%{transform:translateX(-160%);opacity:0}12%{opacity:1}82%{opacity:1}100%{transform:translateX(450%);opacity:0}}
+@keyframes gk-ripple{0%{opacity:.45;transform:translate(-50%,-50%) scale(0)}75%{opacity:.14}100%{opacity:0;transform:translate(-50%,-50%) scale(18)}}
+@keyframes gk-orb-a{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(52px,22px,0) scale(1.05)}66%{transform:translate3d(-20px,55px,0) scale(.98)}}
+@keyframes gk-orb-b{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-55px,-34px,0) scale(1.06)}}
+@keyframes gk-orb-c{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(38px,-42px,0)}}
+@keyframes gk-check-in{0%{opacity:0;transform:scale(.6) rotate(-14deg)}65%{opacity:1;transform:scale(1.12) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes gk-tab-open{0%{opacity:0;transform:translateY(8px) scale(.95);max-width:30px}70%{opacity:1;transform:translateY(-1px) scale(1.01)}100%{transform:none}}
+@keyframes gk-page-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* toolbar micro-interactions */
-.tool,.mini,.menu-trigger,.new-tab,.window-btn,.tab-close,.profile{will-change:transform}
-.tool:hover svg{filter:drop-shadow(0 0 5px rgba(130,170,255,.17))}
+/* Ambient motion */
+.ambient .orb{will-change:transform;transform:translateZ(0)}
+.ambient .orb.a{animation:gk-orb-a 19s ease-in-out infinite}
+.ambient .orb.b{animation:gk-orb-b 25s ease-in-out infinite}
+.ambient .orb.c{animation:gk-orb-c 21s ease-in-out infinite}
+
+/* Chrome entrance */
+.chrome{animation:gk-fade-down .55s var(--gk-out) both;will-change:transform,opacity}
+.tabs-row{animation:gk-fade-down .45s .04s var(--gk-out) both}
+.toolbar{animation:gk-fade-up .48s .08s var(--gk-out) both}
+.brandmark{transition:transform .32s var(--gk-spring),filter .25s}
+.brandmark:hover{transform:rotate(-5deg) scale(1.07);filter:brightness(1.07)}
+
+/* Tabs */
+.tab{will-change:transform,opacity;transition:background .22s var(--gk-ease),color .18s var(--gk-ease),transform .22s var(--gk-spring),box-shadow .24s var(--gk-ease)}
+.tabs .tab:first-child{animation:gk-tab-open .5s var(--gk-out) both}
+.tab:hover{transform:translateY(-2px)}
+.tab:active{transform:translateY(0) scale(.985)}
+.tab.active{animation:gk-soft-pop .3s var(--gk-out) both}
+.tab.active:after{animation:gk-shimmer 2.5s linear infinite}
+.tab.active .favicon{animation:gk-float-wide 4.8s ease-in-out infinite}
+.tab-close{transition:background .16s,color .16s,transform .2s var(--gk-spring)}
+.tab-close:hover{transform:rotate(7deg) scale(1.08)}
+.tab-close:active{transform:rotate(7deg) scale(.9)}
+.new-tab{transition:background .18s,color .18s,transform .3s var(--gk-spring)}
+.new-tab:hover{transform:rotate(90deg) scale(1.08)}
+.new-tab:active{transform:rotate(90deg) scale(.9)}
+.window-btn{transition:background .15s,color .15s,transform .16s var(--gk-ease)}
+.window-btn:active{transform:scale(.9)}
+
+/* Toolbar */
+.tool,.mini,.menu-trigger,.profile{will-change:transform,box-shadow}
+.tool{transition:transform .18s var(--gk-spring),background .18s,color .18s,box-shadow .2s}
+.tool:hover{transform:translate3d(0,-2px,0)}
+.tool:active{transform:scale(.91)}
+.tool:hover svg{filter:drop-shadow(0 0 7px rgba(130,170,255,.2))}
 .tool.loading svg{animation:gk-spin .68s linear infinite}
-.new-tab:hover{transform:rotate(90deg) scale(1.05)}
-.menu-trigger:hover{transform:rotate(15deg) scale(1.03)}
-.profile:hover{animation:gk-pulse 1s ease-out}
+.menu-trigger:hover{transform:rotate(14deg) scale(1.04)}
+.menu-trigger:active{transform:rotate(14deg) scale(.91)}
+.profile{transition:transform .28s var(--gk-spring),box-shadow .28s var(--gk-ease)}
+.profile:hover{transform:translateY(-2px) scale(1.06);animation:gk-pulse 1s ease-out}
 
-/* animated active tab */
-.tab.active:after{animation:gk-shimmer 2.8s linear infinite;background:linear-gradient(90deg,transparent,#83adff,#d7e6ff,#83adff,transparent);background-size:220% 100%}
-.tab.active .favicon{animation:gk-float 4s ease-in-out infinite}
+/* Omnibox */
+.omnibox-shell{will-change:transform,box-shadow,border-color;transition:background .22s,border-color .25s,box-shadow .32s var(--gk-out),transform .25s var(--gk-ease)}
+.omnibox-shell:hover{transform:translateY(-1px)}
+.omnibox-shell.focused{transform:translateY(-1px) scale(1.002)}
+.omnibox-shell.focused .secure-icon{animation:gk-pop .36s var(--gk-out) both}
+.address{caret-color:#9fc0ff}
+.mini{transition:background .15s,color .15s,transform .2s var(--gk-spring)}
+.mini:hover{transform:scale(1.06)}
+.mini:active{transform:scale(.9)}
+.mini.bookmarked{animation:gk-check-in .32s var(--gk-spring) both}
+.suggestions.open{animation:gk-pop .22s var(--gk-out) both;transform-origin:top center}
+.suggestion{transition:background .15s,color .15s,transform .16s var(--gk-ease)}
+.suggestion:hover{transform:translateX(3px)}
+.suggestion:nth-child(1){animation:gk-fade-left .2s .01s var(--gk-out) both}.suggestion:nth-child(2){animation:gk-fade-left .2s .035s var(--gk-out) both}.suggestion:nth-child(3){animation:gk-fade-left .2s .06s var(--gk-out) both}.suggestion:nth-child(4){animation:gk-fade-left .2s .085s var(--gk-out) both}.suggestion:nth-child(5){animation:gk-fade-left .2s .11s var(--gk-out) both}
 
-/* omnibox */
-.omnibox-shell{will-change:transform,box-shadow}
-.omnibox-shell.focused .secure-icon{animation:gk-pop .36s var(--motion-out) both}
-.omnibox-shell.focused:after{content:"";position:absolute;inset:-1px;border-radius:15px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(135,183,255,.12),transparent);background-size:220% 100%;animation:gk-shimmer 1.8s linear infinite}
+/* New-tab choreography */
+.newtab-inner{animation:gk-page-reveal .65s .12s var(--gk-out) both}
+.hero-mark{animation:gk-pop .8s .14s var(--gk-out) both,gk-float-wide 5.6s 1s ease-in-out infinite}
+.hero h1{animation:gk-fade-up .6s .18s var(--gk-out) both}
+.hero h1 span{display:inline-block;animation:gk-breathe 4.8s 1.2s ease-in-out infinite}
+.tagline{animation:gk-fade-up .52s .25s var(--gk-out) both}
+.hero-search{will-change:transform,box-shadow;animation:gk-fade-up .62s .3s var(--gk-out) both;transition:transform .28s var(--gk-out),box-shadow .3s var(--gk-out),border-color .22s}
+.hero-search:hover{transform:translateY(-3px)}
+.hero-search:focus-within{transform:translateY(-3px) scale(1.002)}
+.hero-search:focus-within>svg{animation:gk-float .9s ease-in-out infinite}
+.hero-search button{transition:transform .22s var(--gk-spring),background .17s,box-shadow .2s}
+.hero-search button:hover{transform:translateY(-2px) scale(1.035)}
+.hero-search button:active{transform:scale(.95)}
 
-/* new-tab entrance */
-.hero-mark{animation:gk-pop .82s var(--motion-out) both,.gk-float 5s .9s ease-in-out infinite}
-.hero h1{animation:gk-fade-up .62s .12s var(--motion-out) both}
-.tagline{animation:gk-fade-up .56s .19s var(--motion-out) both}
-.hero-search{animation:gk-fade-up .66s .24s var(--motion-out) both}
-.section{animation:gk-fade-up .62s .32s var(--motion-out) both}
-.shortcut{animation:gk-scale-in .48s var(--motion-out) both}
-.shortcut:nth-child(1){animation-delay:.38s}.shortcut:nth-child(2){animation-delay:.43s}.shortcut:nth-child(3){animation-delay:.48s}.shortcut:nth-child(4){animation-delay:.53s}.shortcut:nth-child(5){animation-delay:.58s}.shortcut:nth-child(6){animation-delay:.63s}
-.info-card{animation:gk-fade-up .55s .69s var(--motion-out) both}.info-card:nth-child(2){animation-delay:.75s}
+/* Shortcut cascade */
+.section{animation:gk-fade-up .62s .38s var(--gk-out) both}
+.shortcut{will-change:transform,box-shadow;transition:transform .28s var(--gk-spring),background .18s,border-color .2s,box-shadow .28s var(--gk-out)}
+.shortcut:nth-child(1){animation:gk-scale-in .46s .44s var(--gk-out) both}.shortcut:nth-child(2){animation:gk-scale-in .46s .48s var(--gk-out) both}.shortcut:nth-child(3){animation:gk-scale-in .46s .52s var(--gk-out) both}.shortcut:nth-child(4){animation:gk-scale-in .46s .56s var(--gk-out) both}.shortcut:nth-child(5){animation:gk-scale-in .46s .60s var(--gk-out) both}.shortcut:nth-child(6){animation:gk-scale-in .46s .64s var(--gk-out) both}
+.shortcut:hover{transform:translate3d(0,-5px,0) scale(1.008)}
+.shortcut:active{transform:translate3d(0,-1px,0) scale(.975)}
+.shortcut .shortcut-icon{transition:transform .3s var(--gk-spring),box-shadow .22s,background .2s}
+.shortcut:hover .shortcut-icon{transform:translate3d(0,-3px,0) rotate(-4deg) scale(1.07);box-shadow:0 9px 22px rgba(78,124,193,.2)}
+.shortcut .shortcut-label{transition:color .17s,transform .22s var(--gk-ease)}
+.shortcut:hover .shortcut-label{transform:translateY(1px)}
 
-/* cards respond with depth */
-.shortcut,.info-card{will-change:transform,box-shadow}
-.shortcut:hover .shortcut-icon{box-shadow:0 9px 22px rgba(78,124,193,.2)}
+/* Info cards */
+.info-card{will-change:transform,box-shadow;animation:gk-fade-up .56s .72s var(--gk-out) both;transition:transform .28s var(--gk-spring),border-color .2s,box-shadow .3s var(--gk-out)}
+.info-card:nth-child(2){animation-delay:.78s}
+.info-card:hover{transform:translateY(-4px)}
+.info-icon{transition:transform .3s var(--gk-spring),box-shadow .22s}
+.info-card:hover .info-icon{transform:rotate(-8deg) scale(1.08);box-shadow:0 8px 18px rgba(78,124,193,.13)}
+.privacy-dot{animation:gk-pulse 2.2s ease-in-out infinite}
 
-/* menus and suggestions */
-.menu-panel.open{animation:gk-pop .23s var(--motion-out) both;transform-origin:top right}
-.suggestions.open{animation:gk-pop .2s var(--motion-out) both;transform-origin:top center}
-.menu-item:hover .menu-icon{transform:translateX(1px) scale(1.08);transition:transform .16s var(--motion-ease)}
+/* Menus */
+.menu-panel.open{animation:gk-pop .23s var(--gk-out) both;transform-origin:top right}
+.menu-item{transition:background .14s,color .14s,transform .18s var(--gk-ease);position:relative;overflow:hidden}
+.menu-item:hover{transform:translateX(3px)}
+.menu-item:active{transform:translateX(1px) scale(.985)}
+.menu-icon{transition:transform .2s var(--gk-spring),color .17s}
+.menu-item:hover .menu-icon{transform:scale(1.1) rotate(-3deg)}
 
-/* status + loading */
-.status.show{animation:gk-fade-up .3s var(--motion-out) both}
-.load-bar:after{animation:gk-slide-glow 1.12s linear infinite}
+/* Loading + status */
+.load-bar{transition:opacity .18s}
+.load-bar:after{animation:gk-slide-glow 1.02s linear infinite}
+.status.show{animation:gk-pop .3s var(--gk-out) both}
+.status-dot{animation:gk-float .9s ease-in-out infinite}
 
-/* button ripple */
-.ripple{position:fixed;left:0;top:0;width:9px;height:9px;border-radius:50%;background:rgba(154,197,255,.3);pointer-events:none;transform:translate(-50%,-50%) scale(0);animation:gk-ripple .58s var(--motion-out) forwards;z-index:9999}
+/* Click feedback */
+.ripple{position:fixed;left:0;top:0;width:10px;height:10px;border-radius:50%;pointer-events:none;background:rgba(154,197,255,.28);transform:translate(-50%,-50%) scale(0);animation:gk-ripple .62s var(--gk-out) forwards;z-index:9999;mix-blend-mode:screen}
 
-@media(prefers-reduced-motion:reduce){.tool.loading svg,.tab.active:after,.hero-mark,.shortcut,.info-card,.hero h1,.tagline,.hero-search,.section,.status.show,.load-bar:after,.suggestions.open,.menu-panel.open{animation:none!important}.omnibox-shell.focused:after{display:none!important}}
+/* GPU-friendly compositing */
+.tab,.shortcut,.info-card,.tool,.mini,.menu-trigger,.profile,.hero-search,.omnibox-shell,.menu-panel,.suggestions,.status{backface-visibility:hidden;transform-style:preserve-3d}
+
+/* Accessibility */
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.omnibox-shell.focused:after{display:none!important}.ripple{display:none!important}}
