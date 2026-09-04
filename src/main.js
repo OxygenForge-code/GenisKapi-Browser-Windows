@@ -1,5 +1,6 @@
 const { app, BrowserWindow, BrowserView, ipcMain, session, Menu } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 const filter = { urls: ['*://*/*'] };
 const blocked = new Set(['doubleclick.net','googlesyndication.com','googleadservices.com','adnxs.com','adsrvr.org','scorecardresearch.com','zedo.com']);
@@ -20,7 +21,15 @@ function createWindow() {
   view.setAutoResize({ width: true, height: true });
   view.webContents.loadURL('https://www.google.com/');
   win.loadFile(path.join(__dirname, 'ui.html'));
+  win.webContents.on('did-finish-load', () => {
+    try {
+      const css = fs.readFileSync(path.join(__dirname, 'animations.css'), 'utf8');
+      win.webContents.insertCSS(css).catch(() => {});
+    } catch {}
+  });
   win.on('resize', () => { const b = win.getBounds(); view.setBounds({ x:0, y:96, width:b.width, height:b.height-96 }); });
+  view.webContents.on('did-start-loading', () => win.webContents.send('page-loading', true));
+  view.webContents.on('did-stop-loading', () => win.webContents.send('page-loading', false));
   view.webContents.on('did-navigate', (_, url) => win.webContents.send('page-url', url));
   view.webContents.on('did-navigate-in-page', (_, url) => win.webContents.send('page-url', url));
 }
